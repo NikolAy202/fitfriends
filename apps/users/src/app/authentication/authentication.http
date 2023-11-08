@@ -1,0 +1,60 @@
+# Create a new user
+POST http://localhost:5000/api/auth/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "caloriesBurnedDay": 1200,
+  "email": "user1@notfound.local",
+  "userName": "Ваня",
+  "password": "123456",
+  "gender": "female",
+  "description": "1234ddddddddddddd56",
+  "location": "Пионерская",
+  "image": "dddddd",
+  "dateBirth": "2012-02-22",
+  "avatar": "ddddd",
+  "role": "trainer",
+  "trainingLevel": "новичок",
+  "typeTraining": "йога",
+  "timeTraining": "10-30 мин",
+  "caloriesBurnedTraining": 1200,
+  "trainingReadiness": true,
+  "merits": "string",
+  "personalTraining": true,
+  "certificates": "jjjj"
+
+
+
+}
+
+###
+
+# Get user by ID
+GET http://localhost:5000/api/auth/6540cc135d949701385bd995 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTQxMDg3ZDg0MjM0MzM2NGMzYjNmYzAiLCJlbWFpbCI6InVzZXI1QG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InVzZXIiLCJ1c2VyTmFtZSI6ItCd0LDRgdGC0Y8iLCJpYXQiOjE2OTg3NjA4NzcsImV4cCI6MTY5ODc2MTQ3N30.iXmx3__O0wwP_Znhxe5XgaNJhBhLQHe5Wh3c03dNczg
+
+###
+
+# Login user by email and password
+POST http://localhost:5000/api/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "user1@notfound.local",
+  "password": "123456"
+}
+
+###
+
+# Get new JWT pair
+POST http://localhost:5000/api/auth/refresh HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTRiMWU1MDlhMGRjMWQ0NTI4Y2YzNzciLCJlbWFpbCI6InVzZXIxQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InRyYWluZXIiLCJ1c2VyTmFtZSI6ItCS0LDQvdGPIiwidG9rZW5JZCI6ImZkYmRhY2IxLWRhMzgtNDE0ZC1hOWUxLTdjYzEwNTllYmY1MiIsImlhdCI6MTY5OTQyMjcxOSwiZXhwIjoxNzAwMDI3NTE5fQ.0KzehOfoulRKNU5JVj33-9P3H5pwLAEsO8FPyMusIDk
+
+###
+
+# Check user token
+POST http://localhost:5000/api/auth/check HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTRiMWU1MDlhMGRjMWQ0NTI4Y2YzNzciLCJlbWFpbCI6InVzZXIxQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InRyYWluZXIiLCJ1c2VyTmFtZSI6ItCS0LDQvdGPIiwiaWF0IjoxNjk5NDIyNzMzLCJleHAiOjE2OTk0MjMzMzN9.oX15xJp-C11W0X-8dhERymX8027ovgpGCA2mOIqKMuc
+
+
+###

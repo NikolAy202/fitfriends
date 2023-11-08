@@ -1,0 +1,39 @@
+# Login user by email and password
+POST http://localhost:3000/api/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "user6@notfound.local",
+  "password": "123456"
+}
+
+###
+
+# Get new JWT pair
+POST http://localhost:3000/api/users/refresh HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTQyNzU3NjljYTYwMzNmMDQ5MzIzNDgiLCJlbWFpbCI6InVzZXI3QG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InVzZXIiLCJ1c2VyTmFtZSI6ItCS0LDQvdGPIiwidG9rZW5JZCI6IjZhZDA1M2NmLTc2MzktNDllNS1iYzhjLWIwM2U0MzczYjYwOSIsImlhdCI6MTY5OTAyMjAxMCwiZXhwIjoxNjk5NjI2ODEwfQ.EIAY4pvUUYWgVilSXg0FIai9TNtbPsotgQ7j7EQYYtA
+
+###
+
+POST http://localhost:3000/api/traning/ HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTQyNzU3NjljYTYwMzNmMDQ5MzIzNDgiLCJlbWFpbCI6InVzZXI3QG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InVzZXIiLCJ1c2VyTmFtZSI6ItCS0LDQvdGPIiwidG9rZW5JZCI6IjZhZDA1M2NmLTc2MzktNDllNS1iYzhjLWIwM2U0MzczYjYwOSIsImlhdCI6MTY5OTAyMjAxMCwiZXhwIjoxNjk5NjI2ODEwfQ.EIAY4pvUUYWgVilSXg0FIai9TNtbPsotgQ7j7EQYYtA
+Content-Type: application/json
+
+{
+  "title": "ddd",
+  "image": "2012-02-22",
+  "trainingLevel": "любитель",
+  "typeTraining": "кроссфит",
+  "timeTraining": "10-30 мин",
+  "price": 123,
+  "caloriesBurnedTraining": 1200,
+  "description": "fffffffffffffffffdd",
+  "gender": "male",
+  "video": "jjjjj",
+  "rating": 3,
+  "trainer": "jjjj",
+  "specialOffer": true
+}
+
+###
+
