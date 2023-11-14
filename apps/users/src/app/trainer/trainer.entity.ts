@@ -4,7 +4,7 @@ import { SALT_ROUNDS } from "./trainer.const";
 
 export class TrainerEntity implements Trainer {
 public trainingLevel: TrainingLevel;
-public typeTraining: TypeTraining;
+public typeTraining: TypeTraining[];
 public certificates: string;
 public merits: string;
 public personalTraining: boolean

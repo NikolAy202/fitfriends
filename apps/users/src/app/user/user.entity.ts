@@ -4,7 +4,7 @@ import { Location } from 'shared/app-types/src/lib/location.enum';
 import {  compare, genSalt, hash } from 'bcrypt';
 import { SALT_ROUNDS } from './user.const';
 
-export class UserEntity implements User{
+export class UserEntity implements User {
     public _id: string;
     public userName: string;
     public email: string;
@@ -17,7 +17,7 @@ export class UserEntity implements User{
     public location: Location;
     public image: string;
     public trainingLevel: TrainingLevel;
-    public typeTraining: TypeTraining;
+    public typeTraining: TypeTraining[];
     public timeTraining: TimeTraining;
     public caloriesBurnedTraining: number;
     public caloriesBurnedDay: number;

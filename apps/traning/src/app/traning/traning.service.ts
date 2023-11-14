@@ -4,6 +4,7 @@ import { CreateTraningDto } from './dto/create-traning.dto';
 import { TraningEntity } from './traning-entity';
 import { UpdateTraningDto } from './dto/update-traning.dto';
 import { TRANING_NOT_FOUND } from './traning.const';
+import { TraningQueryDto } from './query/traning.query.dto';
 
 
 @Injectable()
@@ -45,8 +46,17 @@ export class TraningService {
     return existTraining;
   }
 
-  public async showList() {
-    const existTraining = await this.traningRepository.showList();
+  public async showCatalog(query: TraningQueryDto) {
+    const existTraining = await this.traningRepository.showCatalog(query);
+    if (!existTraining) {
+      return {error: TRANING_NOT_FOUND}
+    }
+    return existTraining;
+  }
+
+
+  public async showList(coachId: string, query: TraningQueryDto) {
+    const existTraining = await this.traningRepository.findByTrainerId(coachId, query);
     if (!existTraining) {
       return {error: TRANING_NOT_FOUND}
     }

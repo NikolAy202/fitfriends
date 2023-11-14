@@ -21,7 +21,7 @@ export interface BaseUser {
 
 export interface User extends BaseUser {
   trainingLevel: TrainingLevel,
-  typeTraining: TypeTraining,
+  typeTraining: TypeTraining[],
   timeTraining: TimeTraining,
   caloriesBurnedTraining: number,
   caloriesBurnedDay: number,
@@ -30,7 +30,7 @@ export interface User extends BaseUser {
 
 export interface Trainer extends BaseUser {
   trainingLevel: TrainingLevel,
-  typeTraining: TypeTraining,
+  typeTraining: TypeTraining[],
   certificates?: string,
   merits: string,
   personalTraining: boolean

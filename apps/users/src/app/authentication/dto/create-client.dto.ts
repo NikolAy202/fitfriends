@@ -19,7 +19,7 @@ export class CreateClientDto {
     example: 'user@user.ru'
   })
   @IsEnum(TypeTraining, {message: 'email must be valid address'})
-  public typeTraining: TypeTraining;
+  public typeTraining: TypeTraining[];
 
 
   @ApiProperty({

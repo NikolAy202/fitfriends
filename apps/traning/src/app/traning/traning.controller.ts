@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Post, Query } from '@nestjs/common';
 import { TraningService } from './traning.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateTraningDto } from './dto/create-traning.dto';
@@ -6,6 +6,7 @@ import { fillObject } from '@project/util/util-core';
 import { TraningRdo } from './rdo/traning.rdo';
 import { UpdateTraningDto } from './dto/update-traning.dto';
 import { MongoidValidationPipe } from '@project/shared/shared-pipes';
+import { TraningQueryDto } from './query/traning.query.dto';
 
 @ApiTags('traning')
 @Controller('traning')
@@ -56,10 +57,20 @@ export class TraningController {
     status: HttpStatus.OK,
     description: 'Show catalog training'
   })
-  public async showCatalog() {
-    const existTrainig = await this.traningService.showList();
+  public async showCatalog(@Query() query: TraningQueryDto) {
+    console.log(`в контроллере: ${query.sortPrice}`)
+    const existTrainig = await this.traningService.showCatalog(query);
     return fillObject(TraningRdo, existTrainig);
   }
 
-
+  @Get('show/trainer/list/:trainerId')
+  @ApiResponse({
+    type: TraningRdo,
+    status: HttpStatus.OK,
+    description: 'Show list training'
+  })
+  public async showCoachIdList(@Param('trainerId', MongoidValidationPipe) coachId: string, @Query() query: TraningQueryDto) {
+    const existTrainig = await this.traningService.showList(coachId, query);
+    return fillObject(TraningRdo, existTrainig);
+  }
 }

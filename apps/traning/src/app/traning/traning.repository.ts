@@ -5,6 +5,8 @@ import { Traning } from "@project/shared/app-types";
 import { InjectModel } from "@nestjs/mongoose";
 import { TraningModel } from "./traning.model";
 import { Model } from "mongoose";
+import { TrainingQuery } from "./query/trning.query";
+import { TraningQueryDto } from "./query/traning.query.dto";
 
 @Injectable()
 export class TraningRepository implements CRUDRepository<TraningEntity, string, Traning> {
@@ -42,12 +44,23 @@ export class TraningRepository implements CRUDRepository<TraningEntity, string, 
       .exec();
   }
 
-  public async showList(): Promise<Traning[]> {
+  public async showCatalog(query: TraningQueryDto): Promise<Traning[]> {
+    const queryObj = new TrainingQuery(query).toObject()
+    console.log(queryObj)
      return this.trainingModel
-     .find()
-     .sort({createdAt: -1})
-     .limit(50)
+     .find(queryObj.filter)
+     .sort(queryObj.sort)
+     .limit(queryObj.limit)
      .exec();
    }
 
+   public async findByTrainerId(trainerId: string, query: TraningQueryDto): Promise<Traning[]> {
+    const queryObj = new TrainingQuery(query).toObject()
+
+    return this.trainingModel
+    .find({...queryObj.filter, trainer: trainerId})
+    .sort(queryObj.sort)
+    .limit(queryObj.limit)
+    .exec();
+  }
 }

@@ -15,3 +15,7 @@ export * from './lib/refresh-token-payload.interface';
 export * from './lib/token.interface';
 export * from './lib/request-with-token-payload';
 export * from './lib/comment.interface';
+export * from './lib/request-training.interface'
+export * from './lib/order.interface';
+export * from './lib/payment-type.enam';
+export * from './lib/user-balance.intarface'

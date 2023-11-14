@@ -1,4 +1,4 @@
-import { Document } from 'mongoose';
+import { Document, Schema as MongooseSchema} from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { User, UserRole, Location, TrainingLevel, TypeTraining, TimeTraining } from '@project/shared/app-types';
 import { UserGender } from '@project/shared/app-types';
@@ -71,11 +71,9 @@ export class UserModel extends Document implements User {
 
 
   @Prop({
-    required: true,
-    type: String,
-    enum: TypeTraining,
+    type: MongooseSchema.Types.Array
   })
-  public typeTraining: TypeTraining;
+  public typeTraining: TypeTraining[];
 
 
   @Prop({

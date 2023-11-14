@@ -1,9 +1,10 @@
 import { UserGender } from "shared/app-types/src/lib/user-gender.enum";
 import { Location } from "shared/app-types/src/lib/location.enum";
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsEmail, IsEnum, IsISO8601, IsString, Length } from "class-validator";
+import { ArrayMaxSize, IsBoolean, IsEmail, IsEnum, IsISO8601, IsString, Length } from "class-validator";
 import { TrainingLevel, TypeTraining, UserRole } from "@project/shared/app-types";
 
+const MAX_TRAINING_COUNT = 3;
 export class CreateTrainerDto {
 
   @ApiProperty({
@@ -18,8 +19,9 @@ export class CreateTrainerDto {
     description: 'User unique address',
     example: 'user@user.ru'
   })
-  @IsEnum(TypeTraining, {message: 'email must be valid address'})
-  public typeTraining: TypeTraining;
+  @IsEnum(TypeTraining, { each: true })
+  @ArrayMaxSize(MAX_TRAINING_COUNT)
+  trainingType: TypeTraining[];
 
   @ApiProperty({
     description: 'User unique address',
