@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { TraningRepository } from '../traning/traning.repository';
-import { CreateTraningDto } from './dto/create-traning.dto';
 import { TraningEntity } from './traning-entity';
-import { UpdateTraningDto } from './dto/update-traning.dto';
+import { CreateTraningDto, UpdateTraningDto } from '@project/shared/shared-dto';
 import { TRANING_NOT_FOUND } from './traning.const';
 import { TraningQueryDto } from './query/traning.query.dto';
 
@@ -23,12 +22,11 @@ export class TraningService {
   }
 
   public async update(id: string, dto: UpdateTraningDto) {
-    console.log('12')
     const oldTraining = await this.traningRepository.findById(id);
     if (!oldTraining) {
-      console.log('oldTraining')
       return {error: 'Traning not found'}
     }
+
     const training = {
       ...oldTraining,
       ...dto
@@ -55,11 +53,27 @@ export class TraningService {
   }
 
 
-  public async showList(coachId: string, query: TraningQueryDto) {
-    const existTraining = await this.traningRepository.findByTrainerId(coachId, query);
+  public async showList(trainerId: string, query: TraningQueryDto) {
+    const existTraining = await this.traningRepository.findByTrainerId(trainerId, query);
     if (!existTraining) {
       return {error: TRANING_NOT_FOUND}
     }
     return existTraining;
+  }
+
+  public async changeImg(trainingId: string, fileId: string) {
+    const existTraining = await this.traningRepository.findById(trainingId);
+    if (!existTraining) {
+      return {error: TRANING_NOT_FOUND}
+    }
+      return this.traningRepository.updateImg(trainingId, fileId);
+  }
+
+  public async changeVideo(trainingId: string, fileId: string) {
+    const existTraining = await this.traningRepository.findById(trainingId);
+    if (!existTraining) {
+      return {error: TRANING_NOT_FOUND}
+    }
+      return this.traningRepository.updateVideo(trainingId, fileId);
   }
 }

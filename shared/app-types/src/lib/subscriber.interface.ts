@@ -1,5 +1,6 @@
-export interface Subscriber {
-  id?: string;
-  email: string;
-  userName: string;
+export interface Subscription {
+  _id?: string;
+  trainerId: string;
+  userEmail: string;
+  trainerName: string;
 }

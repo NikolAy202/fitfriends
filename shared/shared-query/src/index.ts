@@ -1,1 +1,3 @@
-export * from './lib/shared/shared-query';
+export * from './lib/traning.query.dto';
+export * from './lib/users.query.dto';
+

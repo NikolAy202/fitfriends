@@ -1,14 +1,17 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { UserBalanceRepository } from './user-balanse.repository';
-import { UserBalanceModel, UserBalanceSchema } from './user-balance.model';
+import { BalanceService } from './user-balance.service';
+import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
+import { getRabbitMQOptions } from '@project/util/util-core';
 
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: UserBalanceModel.name, schema: UserBalanceSchema }]),
+    RabbitMQModule.forRootAsync(
+      RabbitMQModule,
+      getRabbitMQOptions('application.rabbit')
+    )
   ],
-  providers: [UserBalanceRepository],
-  exports: [UserBalanceRepository],
+  providers: [ BalanceService ],
+  exports: [ BalanceService],
 })
 export class UserBalanceModule {}

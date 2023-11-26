@@ -1,15 +1,29 @@
 # Upload some file
-POST http://localhost:3000/api/files/upload HTTP/1.1
+POST http://localhost:3000/api/files/upload/image/655bab504c2741e123ac2a91 HTTP/1.1
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
-Content-Disposition: form-data; name="file"; filename="BP.pdf"
-Content-Type: application/pdf
+Content-Disposition: form-data; name="image"; filename="00fdce7a-b47f-4c16-95d2-72260b5976b5.jpeg"
+Content-Type: image/jpeg
 
-< ./БП.pdf
+< ./00fdce7a-b47f-4c16-95d2-72260b5976b5.jpeg
 
 --boundary--
 ###
 
 # Get file by ID
-GET http://localhost:3000/api/files/653f87c06f900883f5543abe HTTP/1.1
+GET http://localhost:3000/api/files/655750bcb7ab2bb584400904 HTTP/1.1
+
+###
+POST http://localhost:3000/api/files/upload/avatar/6554e9020a7c8c8db75c254c HTTP/1.1
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary--
+Content-Disposition: form-data; name="avatar"; filename="original.jpg"
+Content-Type: image/jpg
+
+< ./original.jpg
+
+--boundary--
+
+###

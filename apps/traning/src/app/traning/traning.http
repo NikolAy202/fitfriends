@@ -14,7 +14,7 @@ Content-Type: application/json
   "gender": "male",
   "video": "jjjjj",
   "rating": 3,
-  "trainer": "jjjj",
+  "trainer": "655a0748f2389102291e5876",
   "specialOffer": true
 }
 
@@ -35,6 +35,11 @@ GET http://localhost:3000/api/traning/653ea6050508f745436e8b35 HTTP/1.1
 Content-Type: application/json
 
 ###
-#  Список тренировок
+#  Каталог тренировок
 GET http://localhost:7000/api/traning/show/list?&caloriesLoss=2000,3000&limit=20&page=2 HTTP/1.1
+Content-Type: application/json
+
+###
+#  Список тренировок тренера
+GET http://localhost:7000/api/traning/trainer/list/654f1d734fab265efc2857bd?price=0,1500 HTTP/1.1
 Content-Type: application/json

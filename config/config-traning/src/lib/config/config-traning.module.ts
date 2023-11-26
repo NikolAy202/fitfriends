@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import appConfig from './app.config';
-import dbConfig from './db.config';
+import trainingConfig from './training.config';
 
 const ENV_TRANING_FILE_PATH = 'apps/traning/.traning.env';
 
@@ -10,7 +9,7 @@ const ENV_TRANING_FILE_PATH = 'apps/traning/.traning.env';
     ConfigModule.forRoot({
       isGlobal: true,
       cache: true,
-      load: [appConfig, dbConfig],
+      load: [trainingConfig],
       envFilePath: ENV_TRANING_FILE_PATH
     }),
   ]

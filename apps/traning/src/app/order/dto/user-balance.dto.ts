@@ -19,5 +19,4 @@ export class CreateOrderDto {
   })
   @IsInt()
   public trainingCount: number;
-
 }

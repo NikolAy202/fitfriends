@@ -26,7 +26,7 @@ export class CommentsService {
     console.log(allComments)
     const allRatings = allComments.map((el)=>el.ratingTraining);
     console.log(`в сервисе ${allRatings}`)
-    const newRating = Math.floor(allRatings.reduce((a,b)=>a+b)/allRatings.length);
+    const newRating = Math.round(allRatings.reduce((a,b)=>a+b)/allRatings.length);
     console.log(`в сервисе ${newRating}`)
     await this.trainingRepository.updateRating(newComment.traningId, newRating);
     return newComment

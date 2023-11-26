@@ -1,20 +1,42 @@
 import { Document, Schema as MongooseSchema} from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { User, UserRole, Location, TrainingLevel, TypeTraining, TimeTraining } from '@project/shared/app-types';
+import { UserRole, Location, BaseUser, TypeTraining, TrainingLevel } from '@project/shared/app-types';
 import { UserGender } from '@project/shared/app-types';
 
 @Schema({
-  collection: 'client',
+  collection: 'users',
   timestamps: true,
 })
-export class UserModel extends Document implements User {
+export class UserModel extends Document implements BaseUser {
   @Prop()
   public avatar: string;
+
+
+@Prop({
+  required: true,
+  type: String,
+  enum: TrainingLevel,
+  default: TrainingLevel.Beginner,
+})
+public trainingLevel: TrainingLevel;
 
   @Prop({
     required: true,
   })
   public dateBirth: Date;
+
+  @Prop({
+    type: MongooseSchema.Types.Array
+  })
+  public typeTraining: TypeTraining[];
+
+
+  @Prop({
+    required: true,
+
+  })
+  public friends: string[];
+
 
   @Prop({
     required: true,
@@ -45,44 +67,6 @@ export class UserModel extends Document implements User {
   })
   public role: UserRole;
 
-
-  @Prop({
-    required: true,
-  })
-  public caloriesBurnedTraining: number;
-
-  @Prop({
-    required: true,
-  })
-  public trainingReadiness: boolean;
-
-  @Prop({
-    required: true,
-  })
-  public caloriesBurnedDay: number;
-
-  @Prop({
-    required: true,
-    type: String,
-    enum: TrainingLevel,
-    default: TrainingLevel.Beginner,
-  })
-  public trainingLevel: TrainingLevel;
-
-
-  @Prop({
-    type: MongooseSchema.Types.Array
-  })
-  public typeTraining: TypeTraining[];
-
-
-  @Prop({
-    required: true,
-    type: String,
-    enum: TimeTraining,
-    default: TimeTraining.Time30
-  })
-  public timeTraining: TimeTraining;
   @Prop({
     required: true,
     type: String,

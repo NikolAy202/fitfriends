@@ -7,21 +7,27 @@ import { UserBalanceEntity } from "./user-balanse.entity.js";
 
 
 @Injectable()
-export class OrderRepository {
+export class UserBalanceRepository {
   constructor(
     @InjectModel(UserBalanceModel.name) private readonly balanceModel: Model<UserBalanceModel>)
      {
   }
 
   public async create(item: UserBalanceEntity): Promise<UserBalance> {
-
     const newOrder = new this.balanceModel(item);
     return newOrder.save();
   }
 
-  public async findByUserId(userId: string): Promise<UserBalance[] | null> {
-    return this.balanceModel
-      .find({userId: userId})
+
+  public async findByUserId(id: string): Promise<UserBalance[] | null> {
+    console.log(id)
+    const b =  await this.balanceModel
+      .find({userId:  id})
       .exec();
+
+      console.log(b)
+
+      return b
   }
+
 }

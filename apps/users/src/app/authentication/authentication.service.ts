@@ -1,19 +1,21 @@
 import { ConflictException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { UserRepository } from '../user/user.repository';
-import { BaseUser } from '@project/shared/app-types';
+import { BaseUser, UserRole } from '@project/shared/app-types';
 import dayjs from 'dayjs';
-import { AUTH_USER_EXISTS, AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG, USER_ROLE } from './authentication.const';
-import { LoginUserDto } from './dto/login-user.dto';
+import { AUTH_USER_EXISTS, AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG } from './authentication.const';
+import { LoginUserDto } from '@project/shared/shared-dto';
 import { ConfigService, ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConfig } from '@project/config/config-users';
 import { RefreshTokenService } from '../refresh-token/refresh-token.service';
 import * as crypto from 'node:crypto';
 import { createJWTPayload } from '@project/util/util-core';
-import { CreateUserDto } from './dto/create-user.dto.js';
+import { CreateUserDto } from '@project/shared/shared-dto';
 import { UserEntity } from '../user/user.entity';
 import { TrainerEntity } from '../trainer/trainer.entity';
 import { TrainerRepository } from '../trainer/trainer.repository';
+import { ClientRepository } from '../client/client.repository';
+import { ClientEntity } from '../client/client.entity';
 
 
 @Injectable()
@@ -21,6 +23,7 @@ export class AuthenticationService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly trainerRepository: TrainerRepository,
+    private readonly clientRepository: ClientRepository,
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
     private readonly refreshTokenService: RefreshTokenService,
@@ -36,62 +39,51 @@ export class AuthenticationService {
     };
 
     const existUser = await this.userRepository.findByEmail(email);
-    const existTrainer = await this.trainerRepository.findByEmail(email);
 
-    if (existUser || existTrainer) {
+    if (existUser) {
       throw new ConflictException(AUTH_USER_EXISTS);
-    }
-
-    if (dto.role === USER_ROLE.Trainer) {
-
-      const trainerEntity = await new TrainerEntity(user).setPassword(password);
-
-      return this.trainerRepository
-      .create(trainerEntity);
     }
 
     const userEntity = await new UserEntity(user)
       .setPassword(password)
 
-    return this.userRepository
+    const newUser = await this.userRepository
       .create(userEntity);
+
+
+    if (dto.role === UserRole.Trainer) {
+
+      this.trainerRepository
+      .create(new TrainerEntity({...dto, userId: newUser._id}));
+      return newUser;
+    }
+
+    this.clientRepository
+      .create(await new ClientEntity({...dto, userId: newUser._id}));
+
+    return newUser;
   }
 
   public async verifyUser(dto: LoginUserDto) {
     const {email, password} = dto;
     const existUser = await this.userRepository.findByEmail(email);
-    const existTrainer = await this.trainerRepository.findByEmail(email);
 
-    if (!existUser && !existTrainer) {
+
+    if (!existUser) {
       throw new NotFoundException(AUTH_USER_NOT_FOUND);
     }
 
-
-    if (existUser ) {
-      if (existUser.role === USER_ROLE.User) {
-        const userEntity = new UserEntity(existUser);
-        if (!await userEntity.comparePassword(password)) {
+    const userEntity = new UserEntity(existUser);
+      if (!await userEntity.comparePassword(password)) {
           throw new UnauthorizedException(AUTH_USER_PASSWORD_WRONG);
         }
 
         return userEntity.toObject();
-      }
-    }
-
-    const trainerEntity = new TrainerEntity(existTrainer);
-    if (!await trainerEntity.comparePassword(password)) {
-      throw new UnauthorizedException(AUTH_USER_PASSWORD_WRONG);
-    }
-
-    return trainerEntity.toObject();
   }
 
   public async getUser(id: string) {
-    const user = await this.userRepository.findById(id);
-     if (!user) {
-      return this.trainerRepository.findById(id)
-     }
-    return user
+    return await this.userRepository.findById(id);
+
   }
 
   public async createUserToken(user: BaseUser) {
@@ -106,5 +98,21 @@ export class AuthenticationService {
         expiresIn: this.jwtOptions.refreshTokenExpiresIn
       })
     }
+  }
+
+  public async changeAvatar(userId: string, fileId: string) {
+    const existUser = await this.userRepository.findById(userId);
+    if (!existUser)   {
+    throw new ConflictException(AUTH_USER_EXISTS);
+    }
+    return this.userRepository.updateAvatar(userId, fileId);
+  }
+
+  public async changeBackgroundImg(userId: string, fileId: string) {
+    const existUser = await this.userRepository.findById(userId);
+    if (!existUser)   {
+      throw new ConflictException(AUTH_USER_EXISTS);
+    }
+    return this.userRepository.updateBackgroundImg(userId, fileId);
   }
 }

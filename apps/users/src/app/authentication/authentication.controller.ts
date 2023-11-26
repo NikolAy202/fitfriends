@@ -6,11 +6,11 @@ import { LoggedUserRdo } from './rdo/logged-user.rdo';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { MongoidValidationPipe } from '@project/shared/shared-pipes'
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { NotifyService } from '../notify/notify.service';
 import { LocalAuthGuard } from './guards/local-auth-guard';
-import { RequestWithTokenPayload, RequestWithUser } from '@project/shared/app-types';
+import { RabbitRouting, RequestWithTokenPayload, RequestWithUser } from '@project/shared/app-types';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
-import { CreateUserDto } from './dto/create-user.dto';
+import { RabbitRPC } from '@golevelup/nestjs-rabbitmq';
+import { CreateUserDto } from '@project/shared/shared-dto'
 
 
 @ApiTags('authentication')
@@ -18,7 +18,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 export class AuthenticationController {
   constructor(
     private readonly authService: AuthenticationService,
-    private readonly notifyService: NotifyService,
   ) {}
 
   @ApiResponse({
@@ -28,8 +27,6 @@ export class AuthenticationController {
   @Post('register')
   public async create(@Body() dto: CreateUserDto) {
     const newUser = await this.authService.register(dto);
-    const { email, userName } = newUser;
-    await this.notifyService.registerSubscriber({ email, userName })
     return fillObject(UserRdo, newUser);
   }
 
@@ -76,5 +73,25 @@ export class AuthenticationController {
   @Post('check')
   public async checkToken(@Req() { user: payload }: RequestWithTokenPayload) {
     return payload;
+  }
+
+  @RabbitRPC({
+    exchange: 'fitfriends.uploader',
+    routingKey: RabbitRouting.UserAvatars,
+    queue: 'fitfriends.uploader.avatar',
+  })
+  public async userAvatars({userId, fileId}) {
+    const userUpd = await this.authService.changeAvatar(userId, fileId)
+    return fillObject(UserRdo, userUpd);
+  }
+
+  @RabbitRPC({
+    exchange: 'fitfriends.uploader',
+    routingKey: RabbitRouting.UserBackgroundImg,
+    queue: 'fitfriends.uploader.BackgroundImg'
+  })
+  public async userBackgroundImg({userId, fileId}) {
+    const userUpd = await this.authService.changeBackgroundImg(userId, fileId)
+    return fillObject(UserRdo, userUpd);
   }
 }

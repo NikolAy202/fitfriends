@@ -4,8 +4,7 @@ import { OrderEntity } from "./order.enyity";
 import { OrderRepository } from "./order.repository";
 import { TraningRepository } from "../traning/traning.repository";
 import { TRAINING_NOT_FOUND } from "./order.const";
-import { UserBalanceRepository } from "../user-balance/user-balanse.repository";
-import { UserBalanceEntity } from "../user-balance/user-balanse.entity";
+
 
 @Injectable()
 export class OrderService {
@@ -13,8 +12,6 @@ export class OrderService {
   constructor(
     private readonly traningRepository: TraningRepository,
     private readonly orderRepository: OrderRepository,
-    private readonly userBalanceRepository: UserBalanceRepository
-
   ) {}
 
   public async create(dto: CreateOrderDto, trainingId: string) {
@@ -37,17 +34,6 @@ export class OrderService {
     const order = await this.orderRepository
       .create(orderEntity);
 
-    // const NewBalance = {
-    //   userId: dto.userId,
-    //   trainingId: trainingId,
-    //   trainingCount: dto.trainingCount
-
-    // }
-
-    const userBalanceEntity = new UserBalanceEntity({...newOrder, trainingId})
-
-
-    await this.userBalanceRepository.create(userBalanceEntity)
 
     return order
   }

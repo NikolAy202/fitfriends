@@ -1,9 +1,38 @@
+# Регистрация новых пользователей.
+POST http://localhost:3000/api/users/register HTTP/1.1
+Content-Type: application/json
+
+
+{
+  "caloriesBurnedDay": 1200,
+  "email": "user11@notfound.local",
+  "userName": "Ваня",
+  "password": "123456",
+  "gender": "female",
+  "description": "1234ddddddddddddd56",
+  "location": "Пионерская",
+  "image": "dddddd",
+  "dateBirth": "2012-02-22",
+  "avatar": "ddddd",
+  "role": "trainer",
+  "trainingLevel": "новичок",
+  "typeTraining": ["йога"],
+  "timeTraining": "10-30 мин",
+  "caloriesBurnedTraining": 1200,
+  "trainingReadiness": true,
+  "merits": "string",
+  "personalTraining": true,
+  "certificates": ["mmm"]
+}
+
+###
+
 # Login user by email and password
 POST http://localhost:3000/api/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "user6@notfound.local",
+  "email": "user2@notfound.local",
   "password": "123456"
 }
 
@@ -15,25 +44,237 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTQyNzU3N
 
 ###
 
-POST http://localhost:3000/api/traning/ HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTQyNzU3NjljYTYwMzNmMDQ5MzIzNDgiLCJlbWFpbCI6InVzZXI3QG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InVzZXIiLCJ1c2VyTmFtZSI6ItCS0LDQvdGPIiwidG9rZW5JZCI6IjZhZDA1M2NmLTc2MzktNDllNS1iYzhjLWIwM2U0MzczYjYwOSIsImlhdCI6MTY5OTAyMjAxMCwiZXhwIjoxNjk5NjI2ODEwfQ.EIAY4pvUUYWgVilSXg0FIai9TNtbPsotgQ7j7EQYYtA
+# Детальная информация о пользователе
+GET http://localhost:3000/api/users/6560cce524d42ede3ac10241 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTYwYzVjMzI0ZDQyZWRlM2FjMTAyMjMiLCJlbWFpbCI6InVzZXIyMkBub3Rmb3VuZC5sb2NhbCIsInJvbGUiOiJ0cmFpbmVyIiwidXNlck5hbWUiOiLQktCw0L3RjyIsImlhdCI6MTcwMDg0Mjc1NiwiZXhwIjoxNzAwODQzMzU2fQ.NLcsn65XvQse7apMZpY1LPGXrAT1p_UVb32vtaH0dC4
+
+###
+POST http://localhost:3000/api/users/update HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTYwYzVjMzI0ZDQyZWRlM2FjMTAyMjMiLCJlbWFpbCI6InVzZXIyMkBub3Rmb3VuZC5sb2NhbCIsInJvbGUiOiJ0cmFpbmVyIiwidXNlck5hbWUiOiLQktCw0L3RjyIsImlhdCI6MTcwMDg0Mjc1NiwiZXhwIjoxNzAwODQzMzU2fQ.NLcsn65XvQse7apMZpY1LPGXrAT1p_UVb32vtaH0dC4
 Content-Type: application/json
 
 {
-  "title": "ddd",
+  "avatar": "4ru4ufufruhfuhfhhfhf",
+  "description": "dddddddddddddddddddddd"
+}
+
+###
+GET http://localhost:3000/api/users HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTYwYzVjMzI0ZDQyZWRlM2FjMTAyMjMiLCJlbWFpbCI6InVzZXIyMkBub3Rmb3VuZC5sb2NhbCIsInJvbGUiOiJ0cmFpbmVyIiwidXNlck5hbWUiOiLQktCw0L3RjyIsImlhdCI6MTcwMDg0MzcwMCwiZXhwIjoxNzAwODQ0MzAwfQ.QCRiqeO1nhH1660YYkmjmiIhxuxEdWSkSfg3LUzmTsw
+
+###
+# Ответ на заявку
+PATCH http://localhost:3000/api/users/request/6563000cb130a45a4ad4cc80 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTYxZWM0ZTA4NzVkYjVjNTBjNTAzNTMiLCJlbWFpbCI6InVzZXI1QG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InVzZXIiLCJ1c2VyTmFtZSI6ItCS0LDQvdGPIiwiaWF0IjoxNzAwOTg3MTYyLCJleHAiOjE3MDA5ODc3NjJ9.C0DQsUrNko_7e4n75sYiSDuNkzp2zjAYAfiG7LqNH5s
+Content-Type: application/json
+
+{
+  "status": "принят"
+}
+
+###
+# Список оповещений пользователя
+GET http://localhost:3000/api/users/notify/list HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTYxZWM0ZTA4NzVkYjVjNTBjNTAzNTMiLCJlbWFpbCI6InVzZXI1QG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InVzZXIiLCJ1c2VyTmFtZSI6ItCS0LDQvdGPIiwiaWF0IjoxNzAwOTE4MzA3LCJleHAiOjE3MDA5MTg5MDd9.nUehGRkqUiqXuHjV-SjCIHM7kAv5Mxm7D8PY3tGones
+
+###
+# Удалить оповещение
+DELETE http://localhost:3000/api/users/notify/6561f1994fd5fae33fe5dadb HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTYxZWM0ZTA4NzVkYjVjNTBjNTAzNTMiLCJlbWFpbCI6InVzZXI1QG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InVzZXIiLCJ1c2VyTmFtZSI6ItCS0LDQvdGPIiwiaWF0IjoxNzAwOTE4OTM0LCJleHAiOjE3MDA5MTk1MzR9._PZZ99r3j2eSUPXhoyUY7-mj69TDOOJBuxtOQMX-4cc
+
+###
+# Список комментариев к тренировке
+GET http://localhost:3000/api/users/comments/654b63d090bcd651bc904e63 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTYzMWVmNTg3ODRhZjhjZDQ2MjhkZjUiLCJlbWFpbCI6InVzZXI5QG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InVzZXIiLCJ1c2VyTmFtZSI6ItCS0LDQvdGPIiwiaWF0IjoxNzAwOTk4MjU3LCJleHAiOjE3MDEwMDA2NTd9.wuIvUioQJXiCaGv-TE5Fl7DTj7VQPsrbRn9P2Nnn82s
+
+########################## ****ЛИЧНЫЙ КАБИНЕТ ТРЕНЕРА**** ######################
+
+#Создание тренировки
+POST http://localhost:3000/api/trainer/ HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTYzNGE1NGFjZDRmN2VlODIzNWEzZGMiLCJlbWFpbCI6InVzZXIxMUBub3Rmb3VuZC5sb2NhbCIsInJvbGUiOiJ0cmFpbmVyIiwidXNlck5hbWUiOiLQktCw0L3RjyIsImlhdCI6MTcwMTAxNDIzNCwiZXhwIjoxNzAxMDE2NjM0fQ.v6YYtzRPJ9wCNfIsJxH6odrBnnGHiKtAJ23K_kD7tQE
+Content-Type: application/json
+
+{
+  "title": "успех",
   "image": "2012-02-22",
   "trainingLevel": "любитель",
   "typeTraining": "кроссфит",
   "timeTraining": "10-30 мин",
-  "price": 123,
+  "price": 11110,
   "caloriesBurnedTraining": 1200,
   "description": "fffffffffffffffffdd",
   "gender": "male",
   "video": "jjjjj",
   "rating": 3,
-  "trainer": "jjjj",
   "specialOffer": true
 }
 
 ###
+
+#Редактирование тренировки
+POST http://localhost:3000/api/trainer/update/65630a4947bf82684aadbdc7 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTYzMDNhM2IxMzBhNDVhNGFkNGNjYjkiLCJlbWFpbCI6InVzZXI4QG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InRyYWluZXIiLCJ1c2VyTmFtZSI6ItCS0LDQvdGPIiwiaWF0IjoxNzAwOTg4OTc0LCJleHAiOjE3MDA5ODk1NzR9.KDwy-8GQh948t7lCn3VQmWjFv4Wkl5-l_i09NTN7ZiA
+Content-Type: application/json
+
+{
+  "typeTraining": "бокс",
+  "timeTraining": "10-30 мин",
+  "price": 2100,
+  "caloriesBurnedTraining": 1200,
+  "description": "fffffffffffffffffdd",
+  "gender": "male",
+  "trainer": "dddddd"
+}
+
+###
+
+#Детальная информация о тренеровке
+GET http://localhost:3000/api/trainer/training/655a3a27c85541ed4232ab1b HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTVhMDc0OGYyMzg5MTAyMjkxZTU4NzYiLCJlbWFpbCI6InVzZXI1QG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InRyYWluZXIiLCJ1c2VyTmFtZSI6ItCS0LDQvdGPIiwiaWF0IjoxNzAwNjYzNjY1LCJleHAiOjE3MDA2NjQyNjV9.zpdCOVIf2GBcYQMm9m1TUzDd1QOHrj5cn9MOoToJ90w
+Content-Type: application/json
+
+###
+
+#Список тренировко тренера
+GET http://localhost:3000/api/trainer/training/show/list?price=0,1500 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTVhMDc0OGYyMzg5MTAyMjkxZTU4NzYiLCJlbWFpbCI6InVzZXI1QG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InRyYWluZXIiLCJ1c2VyTmFtZSI6ItCS0LDQvdGPIiwiaWF0IjoxNzAwNjY1NjQ2LCJleHAiOjE3MDA2NjYyNDZ9.a0LXiMITEu3rpqI6O7jRYT64_nXKz_N9HF9umt2mKkE
+Content-Type: application/json
+
+###
+
+#Список друзей
+GET http://localhost:3000/api/trainer/friends HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTYwYzVjMzI0ZDQyZWRlM2FjMTAyMjMiLCJlbWFpbCI6InVzZXIyMkBub3Rmb3VuZC5sb2NhbCIsInJvbGUiOiJ0cmFpbmVyIiwidXNlck5hbWUiOiLQktCw0L3RjyIsImlhdCI6MTcwMDg0MjQ2OCwiZXhwIjoxNzAwODQzMDY4fQ.HZ9wRJleI21iGhzoAITb-4PMQeix17-06gLK8QimsB4
+
+###
+
+#Список заказов тренера
+GET http://localhost:3000/api/trainer/orders HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTVhMDc0OGYyMzg5MTAyMjkxZTU4NzYiLCJlbWFpbCI6InVzZXI1QG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InRyYWluZXIiLCJ1c2VyTmFtZSI6ItCS0LDQvdGPIiwiaWF0IjoxNzAwNzIxNjY5LCJleHAiOjE3MDA3MjIyNjl9.i2xy3l45FsIjjFKDPIgUYXRdNMUJWYScEjmZUBv_z44
+
+
+
+########################## ****ЛИЧНЫЙ КАБИНЕТ ПОЛЬЗОВАТЕЛЯ**** ######################
+
+
+#Список друзей
+GET http://localhost:3000/api/client/friends HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTYwYzVjMzI0ZDQyZWRlM2FjMTAyMjMiLCJlbWFpbCI6InVzZXIyMkBub3Rmb3VuZC5sb2NhbCIsInJvbGUiOiJ0cmFpbmVyIiwidXNlck5hbWUiOiLQktCw0L3RjyIsImlhdCI6MTcwMDg0MDkxMCwiZXhwIjoxNzAwODQxNTEwfQ.gi9bpwJBzez8AoYdaOsP4ZOQrLdahrTBdDCCky0-2Bg
+
+###
+
+#Баланс пользователя
+GET http://localhost:3000/api/client/balance HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTYwYzVjMzI0ZDQyZWRlM2FjMTAyMjMiLCJlbWFpbCI6InVzZXIyMkBub3Rmb3VuZC5sb2NhbCIsInJvbGUiOiJ0cmFpbmVyIiwidXNlck5hbWUiOiLQktCw0L3RjyIsImlhdCI6MTcwMDg0MjQ2OCwiZXhwIjoxNzAwODQzMDY4fQ.HZ9wRJleI21iGhzoAITb-4PMQeix17-06gLK8QimsB4
+###
+
+#Подписаться на тренера
+POST http://localhost:3000/api/client/subscribe/655bab504c2741e123ac2a91 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTVhMDc0OGYyMzg5MTAyMjkxZTU4NzYiLCJlbWFpbCI6InVzZXI1QG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InRyYWluZXIiLCJ1c2VyTmFtZSI6ItCS0LDQvdGPIiwiaWF0IjoxNzAwNzMxMzk4LCJleHAiOjE3MDA3MzE5OTh9.a5x55ZTRXD7rgNEotrGCrOg4wynp8LgHvumlPNsRqqE
+
+###
+
+#Отписаться от тренера
+DELETE http://localhost:3000/api/client/subscribe/655bab504c2741e123ac2a91 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTVhMDc0OGYyMzg5MTAyMjkxZTU4NzYiLCJlbWFpbCI6InVzZXI1QG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InRyYWluZXIiLCJ1c2VyTmFtZSI6ItCS0LDQvdGPIiwiaWF0IjoxNzAwNzMxMzk4LCJleHAiOjE3MDA3MzE5OTh9.a5x55ZTRXD7rgNEotrGCrOg4wynp8LgHvumlPNsRqqE
+
+###
+# Создать новый запрос
+POST http://localhost:3000/api/client/request HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTYyMDFlYTJkYTJlNGI0ZTA4YjBkNGYiLCJlbWFpbCI6InVzZXI2QG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InVzZXIiLCJ1c2VyTmFtZSI6ItCS0LDQvdGPIiwiaWF0IjoxNzAwOTIxODY1LCJleHAiOjE3MDA5MjI0NjV9.8aEiZ2eqz5FxT5zEH6rwdPKvUhldvExXiTYlCtHpSHs
+Content-Type: application/json
+
+{
+  "userId": "6562027c2da2e8b0d59",
+  "status": "на рассмотрении",
+  "type": "совместная тренировка"
+}
+
+###
+#Создать новый комментарий
+POST http://localhost:3000/api/client/comments/654b63d090bcd651bc904e63 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTYzMWVmNTg3ODRhZjhjZDQ2MjhkZjUiLCJlbWFpbCI6InVzZXI5QG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InVzZXIiLCJ1c2VyTmFtZSI6ItCS0LDQvdGPIiwiaWF0IjoxNzAwOTk0ODE2LCJleHAiOjE3MDA5OTcyMTZ9.hvx1ibT1lcAq_vIYNMhru7Ovd4bNciN3HCRU3IKhT9o
+Content-Type: application/json
+
+{
+  "text": "ddvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvd",
+  "ratingTraining": 1,
+  "userId": "любитель"
+}
+
+###
+#Загрузить фотографию для тренировки
+POST http://localhost:3000/api/files/image/training/65636aef284949ebd194686c HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTYzNGE1NGFjZDRmN2VlODIzNWEzZGMiLCJlbWFpbCI6InVzZXIxMUBub3Rmb3VuZC5sb2NhbCIsInJvbGUiOiJ0cmFpbmVyIiwidXNlck5hbWUiOiLQktCw0L3RjyIsImlhdCI6MTcwMTAxNzk2MCwiZXhwIjoxNzAxMDIwMzYwfQ.1lWjz322wFSNU4JubpSpXcXzV-qr7Mx3gImiT96VKFA
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="image"; filename="training-1.jpg"
+Content-Type: image/jpeg
+
+< ../../../../mocks/training-image/training-1.jpg
+
+--boundary--
+
+
+###
+#Загрузить аватар
+POST http://localhost:3000/api/files/image/avatar HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTYzNGE1NGFjZDRmN2VlODIzNWEzZGMiLCJlbWFpbCI6InVzZXIxMUBub3Rmb3VuZC5sb2NhbCIsInJvbGUiOiJ0cmFpbmVyIiwidXNlck5hbWUiOiLQktCw0L3RjyIsImlhdCI6MTcwMTAxNzk2MCwiZXhwIjoxNzAxMDIwMzYwfQ.1lWjz322wFSNU4JubpSpXcXzV-qr7Mx3gImiT96VKFA
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="avatar"; filename="trainer-1.png"
+Content-Type: image/jpeg
+
+< ../../../../mocks/avatar/trainer-1.png
+
+--boundary--
+
+
+###
+#Загрузить видео для тренировки
+POST http://localhost:3000/api/files/video/training/65636aef284949ebd194686c HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTYzNGE1NGFjZDRmN2VlODIzNWEzZGMiLCJlbWFpbCI6InVzZXIxMUBub3Rmb3VuZC5sb2NhbCIsInJvbGUiOiJ0cmFpbmVyIiwidXNlck5hbWUiOiLQktCw0L3RjyIsImlhdCI6MTcwMTAxNzIyNSwiZXhwIjoxNzAxMDE5NjI1fQ.wzWRlNwPAbjbD7jfuAAn0aByZ8oZ8w-jTxyHP3XQZ44
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="video"; filename="Video_html_Academy.mov"
+Content-Type: video/mp4
+
+< ../../../../mocks/video/Video_html_Academy.mov
+
+--boundary--
+
+###
+#Загрузить фоновую картинку
+POST http://localhost:3000/api/files/user/background HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTYwYzA1YTA3ZTIyMWRhYzdlY2NlN2QiLCJlbWFpbCI6InVzZXIxQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InVzZXIiLCJ1c2VyTmFtZSI6ItCS0LDQvdGPIiwiaWF0IjoxNzAxMDIwNDE2LCJleHAiOjE3MDEwMjI4MTZ9.BdFeylkQb93S1ntIgvlVpzvPjL5b9mcpDIjvPIKiE0E
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="background"; filename="training-2.jpeg"
+Content-Type: image/jpeg
+
+< ../../../../mocks/training-image/training-2.jpg
+
+--boundary--
+
+
+
+###
+#Загрузить сертификат
+POST http://localhost:3000/api/files/trainer/certificate HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTYwYzA2OTA3ZTIyMWRhYzdlY2NlODMiLCJlbWFpbCI6InVzZXIyQG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InRyYWluZXIiLCJ1c2VyTmFtZSI6ItCS0LDQvdGPIiwiaWF0IjoxNzAxMDIwNzM4LCJleHAiOjE3MDEwMjMxMzh9.2URmyA5vnBxwsayelsyNtLRwiaKX6CPEComQ67jezF8
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="certificate"; filename="2101295.pdf"
+Content-Type: application/pdf
+
+< ../../../../mocks/certificate/2101295.pdf
+
+--boundary--
+
+
 

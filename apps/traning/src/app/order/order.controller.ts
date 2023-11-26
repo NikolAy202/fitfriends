@@ -1,15 +1,18 @@
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
 import { OrderService } from "./order.service";
-import { Body, Controller, HttpStatus, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, HttpStatus, Param, Post } from "@nestjs/common";
 import { CreateOrderDto } from "./dto/create.order.dto";
 import { fillObject } from "@project/util/util-core";
 import { OrderRdo } from "./rdo/order.rdo";
+import { BalanceService } from "../user-balance/user-balance.service";
 
-@ApiTags('order')
-@Controller('order')
+@ApiTags('orders')
+@Controller('orders')
 export class OrderController {
   constructor(
-    private readonly orderService: OrderService
+    private readonly orderService: OrderService,
+    private readonly balanceService: BalanceService,
+
   ) {}
 
   @ApiResponse({
@@ -19,10 +22,23 @@ export class OrderController {
   @Post('create/:trainingId')
   public async create(@Param('trainingId') trainingId: string, @Body() dto: CreateOrderDto) {
 
-    const newComment = await this.orderService.create(dto, trainingId);
-  console.log(newComment)
+    const newOrder = await this.orderService.create(dto, trainingId);
 
-    return fillObject(OrderRdo, newComment);
+    await this.balanceService.createBalance(newOrder);
+
+    return fillObject(OrderRdo, newOrder);
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: ''
+  })
+  @Get('show/list/:trainerId')
+  public async showOrder(@Param('trainerId') trainerId: string) {
+
+    const orders = await this.orderService.showListByTrainer(trainerId);
+
+    return fillObject(OrderRdo, orders);
   }
 
 }

@@ -6,18 +6,21 @@ import {
   getMongooseOptions,
 } from '@project/config/config-users';
 import { MongooseModule } from '@nestjs/mongoose';
-import { NotifyModule } from './notify/notify.module';
 import { TrainerModule } from './trainer/trainer.module';
-
+import { ClientModule } from './client/client.module';
+import { TrainingRequestModule } from './training-request/training-request.module';
+import { UserBalanceModule } from './user-balance/user-balance.module';
 
 @Module({
   imports: [
+    UserBalanceModule,
+    ClientModule,
+    TrainingRequestModule,
     AuthenticationModule,
     UserModule,
     TrainerModule,
     ConfigUsersModule,
     MongooseModule.forRootAsync(getMongooseOptions()),
-    NotifyModule,
   ],
   controllers: [],
   providers: [],

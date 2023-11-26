@@ -21,6 +21,7 @@ export class CommentsController {
   })
   @Post('create/:trainingId')
   public async create(@Param('trainingId') trainingId: string, @Body() dto: CommentDto) {
+   console.log(dto)
     const newComment = await this.commentsService.createComment(trainingId, dto);
     return fillObject(CommentRdo, newComment);
   }
@@ -31,7 +32,7 @@ export class CommentsController {
     description: 'Comment by trainingId found'
   })
   @Get(':trainingId')
-  public async showTrainingId(@Query() query: CommentQuery, @Param('trainingId') trainingId: string) {
+  public async showByTrainingId(@Query() query: CommentQuery, @Param('trainingId') trainingId: string) {
     const comments = await this.commentsService.getTrainingId(trainingId, query);
     return fillObject(CommentRdo, comments);
   }

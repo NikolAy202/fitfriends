@@ -3,8 +3,15 @@ Content-Type: application/json
 
 {
   "text": "ddvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvd",
-  "ratingTraining": 4,
-  "userId": "любитель",
+  "ratingTraining": 1,
+  "userId": "любитель"
 }
 
 ###
+
+GET http://localhost:7000/api/comment/654b63d090bcd651bc904e63 HTTP/1.1
+
+
+###
+
+

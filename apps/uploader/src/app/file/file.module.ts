@@ -6,10 +6,14 @@ import { ConfigService } from '@nestjs/config';
 import { FileRepository } from './file.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { FileModel, FileSchema } from './file.model';
+import { UploadUsersModule } from '../upload-users/upload-users.module';
+import { UploadTrainingModule } from '../upload-training/upload-training.module';
 
 
 @Module({
   imports: [
+    UploadTrainingModule,
+    UploadUsersModule,
     ServeStaticModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {

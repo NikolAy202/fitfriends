@@ -17,21 +17,24 @@ export interface BaseUser {
   description: string;
   location: Location;
   image: string;
-}
-
-export interface User extends BaseUser {
+  friends?: string[]
   trainingLevel: TrainingLevel,
   typeTraining: TypeTraining[],
+}
+
+export interface User  {
+  _id?: string;
+  userId: string;
   timeTraining: TimeTraining,
   caloriesBurnedTraining: number,
   caloriesBurnedDay: number,
   trainingReadiness: boolean
 }
 
-export interface Trainer extends BaseUser {
-  trainingLevel: TrainingLevel,
-  typeTraining: TypeTraining[],
-  certificates?: string,
+export interface Trainer  {
+  _id?: string;
+  userId: string;
+  certificates?: string[],
   merits: string,
   personalTraining: boolean
 }

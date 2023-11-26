@@ -1,10 +1,10 @@
-import { TimeTraining, TrainingLevel, TypeTraining, User, UserRole} from '@project/shared/app-types'
+import { BaseUser, TimeTraining, TrainingLevel, TypeTraining, UserRole} from '@project/shared/app-types'
 import { UserGender } from 'shared/app-types/src/lib/user-gender.enum';
 import { Location } from 'shared/app-types/src/lib/location.enum';
 import {  compare, genSalt, hash } from 'bcrypt';
 import { SALT_ROUNDS } from './user.const';
 
-export class UserEntity implements User {
+export class UserEntity implements BaseUser {
     public _id: string;
     public userName: string;
     public email: string;
@@ -21,9 +21,10 @@ export class UserEntity implements User {
     public timeTraining: TimeTraining;
     public caloriesBurnedTraining: number;
     public caloriesBurnedDay: number;
-    public trainingReadiness: boolean
+    public trainingReadiness: boolean;
+    public friends: string[]
 
-    constructor(userEntity: User) {
+    constructor(userEntity: BaseUser) {
       this.fillEntity(userEntity);
     }
 
@@ -31,7 +32,7 @@ export class UserEntity implements User {
       return {...this};
     }
 
-    public fillEntity(userEntity: User) {
+    public fillEntity(userEntity: BaseUser) {
       this._id = userEntity._id;
       this.userName = userEntity.userName;
       this.email = userEntity.email;
@@ -43,12 +44,9 @@ export class UserEntity implements User {
       this.description = userEntity.description;
       this.location = userEntity.location;
       this.image = userEntity.image;
-      this.trainingLevel = userEntity.trainingLevel;
+      this.friends = userEntity.friends;
       this.typeTraining = userEntity.typeTraining;
-      this.timeTraining = userEntity.timeTraining;
-      this.caloriesBurnedTraining = userEntity.caloriesBurnedTraining;
-      this.caloriesBurnedDay = userEntity.caloriesBurnedDay;
-      this.trainingReadiness = userEntity.trainingReadiness;
+      this.trainingLevel = userEntity.trainingLevel;
     }
 
     public async setPassword(password: string): Promise<UserEntity> {

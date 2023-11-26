@@ -1,2 +1,2 @@
 export * from './lib/config/config-traning.module';
-export * from './lib/config/get-mongoose-options'
+export { default as trainingConfig } from './lib/config/training.config';

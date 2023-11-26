@@ -4,6 +4,9 @@ import { UsersController } from './users.controller';
 import { HttpModule } from '@nestjs/axios';
 import { HTTP_CLIENT_MAX_REDIRECTS, HTTP_CLIENT_TIMEOUT } from './app.config';
 import { CheckAuthGuard } from './guards/check-auth.guard';
+import { TrainerController } from './trainers-personal-account.controller';
+import { ClientsController } from './client-personal-account.controller';
+import { UploaderController } from './uploader.controller';
 
 @Module({
   imports: [
@@ -13,8 +16,11 @@ import { CheckAuthGuard } from './guards/check-auth.guard';
     })
   ],
   controllers: [
+    UploaderController,
+    ClientsController,
     UsersController,
     TraningController,
+    TrainerController,
   ],
   providers: [ CheckAuthGuard ],
 

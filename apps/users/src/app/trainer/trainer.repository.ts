@@ -13,7 +13,7 @@ export class TrainerRepository implements CRUDRepository<TrainerEntity, string, 
     @InjectModel(TrainerModel.name) private readonly trainerModel: Model<TrainerModel>) {
   }
 
-  public async create(item: TrainerEntity): Promise<SharedUser> {
+  public async create(item: TrainerEntity): Promise<Trainer> {
     const newUser = new this.trainerModel(item);
     return newUser.save();
   }
@@ -28,9 +28,10 @@ export class TrainerRepository implements CRUDRepository<TrainerEntity, string, 
       .exec();
   }
 
-  public async findByEmail(email: string): Promise<Trainer | null> {
+
+  public async findByUserId(userId: string): Promise<Trainer | null> {
     return this.trainerModel
-      .findOne({email})
+      .findOne({userId})
       .exec();
 
     }
@@ -39,5 +40,20 @@ export class TrainerRepository implements CRUDRepository<TrainerEntity, string, 
       return this.trainerModel
         .findByIdAndUpdate(id, item.toObject(), {new: true})
         .exec();
+    }
+
+    public async updateCertificate(id: string, certificateId: string): Promise<Trainer | null> {
+      const trainer = await this.trainerModel.findOne({_id: id}).exec();
+      const existsFile = trainer.certificates.includes(certificateId);
+      console.log(certificateId)
+      if(!existsFile) {
+      const certificates = [...trainer.certificates, certificateId];
+      return this.trainerModel
+        .findOneAndUpdate({_id: id}, {certificates: certificates}, {new: true})
+        .exec();
+      }
+      return this.trainerModel
+      .findOneAndUpdate({_id: id}, {certificates: certificateId}, {new: true})
+      .exec();
     }
   }

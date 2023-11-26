@@ -25,6 +25,8 @@
         "libs/config/config-users/src/index.ts"
       ],
       "@project/shared/app-types": ["shared/app-types/src/index.ts"],
+      "@project/shared/dto": ["shared/dto/src/index.ts"],
+      "@project/shared/shared-dto": ["shared/shared-dto/src/index.ts"],
       "@project/shared/shared-pipes": ["shared/shared-pipes/src/index.ts"],
       "@project/shared/shared-query": ["shared/shared-query/src/index.ts"],
       "@project/util/util-core": ["util/util-core/src/index.ts"],
