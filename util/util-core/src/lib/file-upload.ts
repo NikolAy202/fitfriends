@@ -1,3 +1,5 @@
+const MAX_SIZE_FILES = 1024
+
 export const imageFileFilter = (req, file, callback) => {
   if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
     return callback(new Error('Only image files are allowed!'), false);
@@ -9,7 +11,7 @@ export const avatarFileFilter = (req, file, callback) => {
   if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
     return callback(new Error('Only image files are allowed!'), false);
   }
-  if (file.size > 1024) {
+  if (file.size > MAX_SIZE_FILES) {
     return callback(new Error('Maximum image size is 1 megabyte!'), false);
   }
   callback(null, true);

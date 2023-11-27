@@ -26,7 +26,6 @@ export class FileController {
   @Post('upload/image/:id')
   @UseInterceptors(FileInterceptor('image', {fileFilter: imageFileFilter}))
   public async uploadImg(@UploadedFile() file: Express.Multer.File, @Param('id', MongoidValidationPipe) id: string) {
-    console.log('1')
     const newFile = await this.fileService.saveFile(file, 'image', id);
     await this.uploadTrainingService.trainingImg(id, newFile.id);
     const path = `${this.applicationConfig.serveRoot}${newFile.path}`;
