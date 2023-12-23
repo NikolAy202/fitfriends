@@ -5,7 +5,7 @@ import { UserGender } from "./user-gender.enum";
 
 export interface Traning {
   title: string;
-  image: string;
+  image?: string;
   trainingLevel: TrainingLevel,
   typeTraining: TypeTraining,
   timeTraining: TimeTraining,
@@ -13,7 +13,7 @@ export interface Traning {
   caloriesBurnedTraining: number,
   description: string;
   gender: UserGender;
-  video: string;
+  video?: string;
   rating: number;
   trainer: string;
   specialOffer: boolean

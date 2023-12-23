@@ -7,7 +7,7 @@ import { MongoidValidationPipe } from "@project/shared/shared-pipes";
 import { TrainingRequest } from "@project/shared/app-types";
 import { AuthorIdRequestInterceptor } from "./interceptors/author-id-request.interseptor";
 import { RoleUserInterceptor } from "./interceptors/role-user.intersceptor";
-import { CommentDto } from "@project/shared/shared-dto";
+import { CommentDto, CreateOrderDto } from "@project/shared/shared-dto";
 import { UserIdInterceptor } from "./interceptors/user-id.interseptor";
 
 @Controller('client')
@@ -27,6 +27,13 @@ export class ClientsController {
       'Authorization': req.headers['authorization'],
       }
   })
+  await Promise.all(data.map(async (el) => {
+    if (el.avatar) {
+      const {data: {path}}  = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Files}/${el.avatar}`);
+      el.avatar = path;
+    }
+    }));
+
   return data;
   }
 
@@ -38,6 +45,16 @@ export class ClientsController {
       'Authorization': req.headers['authorization'],
       }
   })
+  await Promise.all(data.map(async (el) => {
+
+    const {data} = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Traning}/${el.trainingId}`);
+    if (data.image) {
+      const {data: {path}}  = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Files}/${data.image}`);
+      data.image = path;
+    }
+    el.training = data;
+  }))
+
   return data;
   }
 
@@ -62,6 +79,16 @@ export class ClientsController {
   return data;
   }
 
+  @UseGuards(CheckAuthGuard)
+  @UseInterceptors(UserIdInterceptor)
+  @UseInterceptors(RoleUserInterceptor)
+  @Post('order/:trainingId')
+  public async buyTraining(@Body() dto: CreateOrderDto,  @Param('trainingId', MongoidValidationPipe) trainingId: string) {
+
+    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Orders}/create/${trainingId}`, dto)
+  return data;
+  }
+
 
 
   @UseGuards(CheckAuthGuard)
@@ -81,7 +108,7 @@ export class ClientsController {
   @UseInterceptors(UserIdInterceptor)
   @Post('comments/:trainingId')
   public async createComment(@Req() req: Request, @Param('trainingId', MongoidValidationPipe) trainingId: string, @Body() dto: CommentDto) {
-    console.log('')
+
     const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Comment}/create/${trainingId}`, dto, {
       headers: {
       'Authorization': req.headers['authorization'],

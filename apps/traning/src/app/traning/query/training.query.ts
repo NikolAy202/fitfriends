@@ -19,7 +19,7 @@ export class TrainingQuery {
 
   public fillQuery(query: TraningQueryDto) {
     this.sort = this.getSort(query.sortPrice, query.sortDate);
-    this.filter = this.getFilter(query.price, query.caloriesLoss, query.rating, query.trainingStyle, )
+    this.filter = this.getFilter(query.price, query.caloriesReset, query.rating, query.trainingType, )
     this.limit = this.getLimit(query.limit, query.page);
   }
 
@@ -41,26 +41,25 @@ export class TrainingQuery {
     return limitNumber
   }
 
-  public getFilter(filterPrice?: string, caloriesLoss?: number[], rating?: number[], trainingStyle?: TypeTraining[] ) {
+  public getFilter(filterPrice?: string, caloriesReset?: number[], rating?: number[], trainingType?: TypeTraining[] ) {
 
     const filterObj: SomeObject = {}
-    console.log(typeof filterPrice)
     if (filterPrice) {
       const filte = filterPrice.split(',');
       filterObj['price'] =  { "$gte": filte[0],
                              "$lte": filte[1],
                            };
                         }
-    if (caloriesLoss) {
-      filterObj['caloriesBurnedTraining'] =  { "$gte": caloriesLoss[0],
-                                      "$lte": caloriesLoss[1],
+    if (caloriesReset) {
+      filterObj['caloriesBurnedTraining'] =  { "$gte": caloriesReset[0],
+                                      "$lte": caloriesReset[1],
                                    };
                       }
     if (rating) {filterObj['rating'] =  { "$gte": rating[0],
                       "$lte": rating[1],
                     }
                    }
-    if (trainingStyle) {filterObj['typeTraining'] = { "$in": trainingStyle };}
+    if (trainingType) {filterObj['typeTraining'] = { "$in": trainingType };}
 
     return filterObj
   }

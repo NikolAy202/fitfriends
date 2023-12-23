@@ -62,7 +62,7 @@ export class UploaderController {
   @UseInterceptors(FileInterceptor('certificate'))
   public async postCertificate(@Req() req: Request, @UploadedFile() file: Express.Multer.File) {
     const formData = new FormData();
-    console.log(req.body['trainer'])
+
     formData.append('certificate', Buffer.from(file.buffer), {filename: file.originalname, contentType: file.mimetype});
 
     const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Uploads}/certificate/${req.body['trainer']}`,

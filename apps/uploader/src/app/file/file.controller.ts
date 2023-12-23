@@ -84,6 +84,7 @@ export class FileController {
 
   @Get(':fileId')
   public async show(@Param('fileId', MongoidValidationPipe) fileId: string) {
+    console.log(fileId)
     const existFile = await this.fileService.getFile(fileId);
     const path = `http://localhost:${process.env.PORT}${this.applicationConfig.serveRoot}${existFile.path}`;
     return  {path}

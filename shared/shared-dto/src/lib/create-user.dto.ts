@@ -1,7 +1,7 @@
 import { UserGender } from "shared/app-types/src/lib/user-gender.enum";
 import { Location } from "shared/app-types/src/lib/location.enum";
 import { ApiProperty } from '@nestjs/swagger';
-import { ArrayMaxSize, IsArray, IsBoolean, IsEmail, IsEnum, IsISO8601, IsInt, IsString, Length, Min, ValidateIf } from "class-validator";
+import { ArrayMaxSize, IsArray, IsBoolean, IsEmail, IsEnum, IsISO8601, IsInt, IsOptional, IsString, Length, Min, ValidateIf } from "class-validator";
 import { TimeTraining, TrainingLevel, TypeTraining, UserRole } from "@project/shared/app-types";
 
 const MAX_TRAINING_COUNT = 3;
@@ -48,8 +48,9 @@ export class CreateUserDto {
     description: 'User avatar',
     example: 'upload/avatar12'
   })
+  @IsOptional()
   @IsString()
-  public avatar: string;
+  public avatar?: string;
 
   @ApiProperty({
     description: 'User role',
@@ -62,6 +63,7 @@ export class CreateUserDto {
     description: 'Text with general information',
     example: 'Хороший кот ищет товарищей для тренировки'
   })
+  @IsOptional()
   @IsString()
   @Length(10, 140, {message: 'Min length text is 10, max is 140'})
   public description: string;
@@ -77,8 +79,9 @@ export class CreateUserDto {
     description: 'Background image for the users card',
     example: 'upload/image/user12/21'
   })
+  @IsOptional()
   @IsString()
-  public image: string;
+  public image?: string;
 
   @ApiProperty({
     description: 'User unique address',
@@ -122,9 +125,11 @@ export class CreateUserDto {
   @Min(0, {message: 'Minimum calories is 0'})
   public caloriesBurnedDay: number;
 
+  @ValidateIf(o => o.role === UserRole.User)
   @IsBoolean()
   public trainingReadiness: boolean;
 
+  @ValidateIf(o => o.role === UserRole.User)
   @ApiProperty({
     description: 'User unique address',
     example: 'user@user.ru'

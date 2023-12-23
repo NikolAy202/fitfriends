@@ -41,6 +41,10 @@ export class OrderService {
   public async showListByTrainer(trainerId: string) {
     return await this.orderRepository.findByTrainerId(trainerId);
   }
+
+  public async showListByUser(userId: string) {
+    return await this.orderRepository.findByUserId(userId);
+  }
 }
 
 

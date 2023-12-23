@@ -23,8 +23,25 @@ Content-Type: application/json
   "personalTraining": true,
   "certificates": ["mmm"]
 
+}
 
+###
+# Create a new user
+POST http://localhost:5000/api/auth/register HTTP/1.1
+Content-Type: application/json
 
+{
+  "email": "user7@notfound.local",
+  "userName": "Ваня",
+  "password": "123456",
+  "gender": "female",
+  "location": "Пионерская",
+  "dateBirth": "2012-02-22",
+  "role": "trainer",
+  "trainingLevel": "новичок",
+  "typeTraining": ["йога", "бокс"],
+  "merits": "string",
+  "personalTraining": true
 }
 
 ###

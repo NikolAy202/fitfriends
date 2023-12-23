@@ -28,4 +28,12 @@ export class OrderRepository {
       .find({trainerId: trainerId})
       .exec();
   }
+
+  public async findByUserId(userId: string): Promise<Order[] | null> {
+    return this.orderModel
+      .find({userId: userId})
+      .exec();
+  }
+
+
 }

@@ -11,12 +11,12 @@ export interface BaseUser {
   userName: string;
   gender: UserGender;
   dateBirth: Date;
-  avatar: string;
+  avatar?: string;
   passwordHash: string;
   role: UserRole;
-  description: string;
+  description?: string;
   location: Location;
-  image: string;
+  image?: string;
   friends?: string[]
   trainingLevel: TrainingLevel,
   typeTraining: TypeTraining[],

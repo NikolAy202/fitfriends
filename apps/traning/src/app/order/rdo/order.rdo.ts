@@ -34,4 +34,10 @@ export class OrderRdo {
   })
   @Expose()
   public paymentType: PaymentType;
+
+  @ApiProperty({
+    description: 'The training ID'
+  })
+  @Expose()
+  public totalPrice: number;
 }

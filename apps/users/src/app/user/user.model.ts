@@ -49,10 +49,8 @@ public trainingLevel: TrainingLevel;
   })
   public userName: string;
 
-  @Prop({
-    required: true,
-  })
-  public description: string;
+  @Prop()
+  public description?: string;
 
   @Prop({
     required: true,

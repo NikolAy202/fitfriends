@@ -12,10 +12,8 @@ export class TraningModel extends Document implements Traning {
   })
   public title: string;
 
-  @Prop({
-    required: true,
-  })
-  public image: string;
+  @Prop()
+  public image?: string;
 
   @Prop({
     required: true,
@@ -59,10 +57,8 @@ export class TraningModel extends Document implements Traning {
   })
   public gender: UserGender;
 
-  @Prop({
-    required: true,
-  })
-  public video: string;
+  @Prop()
+  public video?: string;
 
   @Prop({
     required: true,

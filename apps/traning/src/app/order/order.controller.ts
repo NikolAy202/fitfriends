@@ -41,4 +41,16 @@ export class OrderController {
     return fillObject(OrderRdo, orders);
   }
 
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: ''
+  })
+  @Get('list/:id')
+  public async showOrderForUser(@Param('id') userId: string) {
+
+    const orders = await this.orderService.showListByUser(userId);
+
+    return fillObject(OrderRdo, orders);
+  }
 }

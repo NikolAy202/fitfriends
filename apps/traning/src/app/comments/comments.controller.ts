@@ -21,7 +21,6 @@ export class CommentsController {
   })
   @Post('create/:trainingId')
   public async create(@Param('trainingId') trainingId: string, @Body() dto: CommentDto) {
-   console.log(dto)
     const newComment = await this.commentsService.createComment(trainingId, dto);
     return fillObject(CommentRdo, newComment);
   }
@@ -35,16 +34,6 @@ export class CommentsController {
   public async showByTrainingId(@Query() query: CommentQuery, @Param('trainingId') trainingId: string) {
     const comments = await this.commentsService.getTrainingId(trainingId, query);
     return fillObject(CommentRdo, comments);
-  }
-
-  @Post('test')
-  public async createTestData(@Body() test_data) {
-    const dataArr = [];
-    for (const key in test_data) {
-      const training = await this.commentsService.createTestData(test_data[key]);
-    dataArr.push(training);
-  }
-    return dataArr;
   }
 
 }

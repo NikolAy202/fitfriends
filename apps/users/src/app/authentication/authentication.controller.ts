@@ -30,6 +30,15 @@ export class AuthenticationController {
     return fillObject(UserRdo, newUser);
   }
 
+  @Post('check/email')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Check email'
+  })
+  public async checkEmail(@Body() body) {
+    return this.authService.checkEmail(body.email);
+  }
+
   @UseGuards(LocalAuthGuard)
   @ApiResponse({
     type: LoggedUserRdo,
@@ -43,6 +52,7 @@ export class AuthenticationController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   public async login(@Req() { user }: RequestWithUser) {
+    console.log(user)
     return this.authService.createUserToken(user);
   }
 
@@ -55,6 +65,7 @@ export class AuthenticationController {
   @Get(':id')
   public async show(@Param('id', MongoidValidationPipe) id: string) {
     const existUser = await this.authService.getUser(id);
+    console.log(existUser)
     return fillObject(UserRdo, existUser);
   }
 

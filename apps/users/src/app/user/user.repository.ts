@@ -1,6 +1,6 @@
 import { CRUDRepository } from '@project/util/util-types';
 import { Injectable } from '@nestjs/common';
-import { BaseUser, Trainer, User} from '@project/shared/app-types';
+import { BaseUser, Trainer} from '@project/shared/app-types';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { UserModel } from './user.model';
@@ -84,7 +84,7 @@ export class UserRepository implements CRUDRepository<UserEntity, string, BaseUs
               image : 1,
               friends:1,
               trainingLevel : "$result.trainingLevel",
-              typeTraining : "$result.typeTraining",
+              typeTraining : 1,
               certificates : "$result.certificates",
               merits : "$result.merits",
               personalTraining : "$result.personalTraining",
@@ -124,8 +124,8 @@ export class UserRepository implements CRUDRepository<UserEntity, string, BaseUs
               location : 1,
               image : 1,
               friends:1,
-              trainingLevel : "$result.trainingLevel",
-              typeTraining : "$result.typeTraining",
+              trainingLevel : 1,
+              typeTraining : 1,
               timeTraining : "$result.timeTraining",
               caloriesBurnedTraining : "$result.caloriesBurnedTraining",
               caloriesBurnedDay : "$result.caloriesBurnedDay",

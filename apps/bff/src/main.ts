@@ -5,12 +5,15 @@
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-
+import cors from 'cors';
 import { AppModule } from './app/app.module';
 import { RequestIdInterceptor } from './app/interceptors/request-id.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.use(cors());
+
   const globalPrefix = 'api';
   app.useGlobalInterceptors(new RequestIdInterceptor());
   app.setGlobalPrefix(globalPrefix);

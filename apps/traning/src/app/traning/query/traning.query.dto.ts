@@ -21,7 +21,7 @@ export class TraningQueryDto {
   @IsArray({})
   @IsArray({})
   @IsOptional()
-  public caloriesLoss?: number[];
+  public caloriesReset?: number[];
 
   @Transform(({ value }) => {if (typeof value === "string") {return value.split(',').map((el: string) => el)} return value })
   @IsArray({})
@@ -31,7 +31,7 @@ export class TraningQueryDto {
   @Transform(({ value }) => {if (typeof value === "string") {return value.split(',').map((el: string) => el)} return value })
   @IsArray({})
   @IsOptional()
-  public trainingStyle?: TypeTraining[];
+  public trainingType?: TypeTraining[];
 
   @IsIn(['asc', 'desc', 1, -1])
   @Transform(({ value } ) => value === 'desc' || value==='-1' ? -1 : 1 )

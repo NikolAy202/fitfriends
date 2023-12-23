@@ -44,6 +44,7 @@ export class TraningRepository implements CRUDRepository<TraningEntity, string, 
 
   public async showCatalog(query: TraningQueryDto): Promise<Traning[]> {
     const queryObj = new TrainingQuery(query).toObject()
+
      return this.trainingModel
      .find(queryObj.filter)
      .sort(queryObj.sort)

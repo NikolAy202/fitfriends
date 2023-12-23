@@ -3,7 +3,6 @@ import { TimeTraining, TrainingLevel, Traning, TypeTraining, UserGender } from '
 export class TraningEntity implements Traning {
   public _id: string;
   public title: string;
-  public image: string;
   public trainingLevel: TrainingLevel;
   public typeTraining: TypeTraining;
   public timeTraining: TimeTraining;
@@ -11,7 +10,6 @@ export class TraningEntity implements Traning {
   public caloriesBurnedTraining: number;
   public description: string;
   public gender: UserGender;
-  public video: string;
   public rating: number;
   public trainer: string;
   public specialOffer: boolean
@@ -27,7 +25,6 @@ export class TraningEntity implements Traning {
 
   public fillEntity(training: Traning) {
     this.title = training.title;
-    this.image = training.image;
     this.trainingLevel = training.trainingLevel;
     this.typeTraining = training.typeTraining;
     this.timeTraining = training.timeTraining;
@@ -35,7 +32,6 @@ export class TraningEntity implements Traning {
     this.caloriesBurnedTraining = training.caloriesBurnedTraining;
     this.description = training.description;
     this.gender = training.gender;
-    this.video = training.video;
     this.rating = training.rating;
     this.trainer = training.trainer;
     this.specialOffer = training.specialOffer;

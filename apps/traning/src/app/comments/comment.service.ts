@@ -21,13 +21,9 @@ export class CommentsService {
       return {error: TRANING_NOT_FOUND}
     }
     const newComment = await this.commentRepository.create(commentEntity);
-    console.log(newComment)
     const allComments = await this.commentRepository.findByTrainingId(newComment.traningId);
-    console.log(allComments)
     const allRatings = allComments.map((el)=>el.ratingTraining);
-    console.log(`в сервисе ${allRatings}`)
     const newRating = Math.round(allRatings.reduce((a,b)=>a+b)/allRatings.length);
-    console.log(`в сервисе ${newRating}`)
     await this.trainingRepository.updateRating(newComment.traningId, newRating);
     return newComment
   }

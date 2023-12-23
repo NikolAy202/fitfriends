@@ -11,8 +11,8 @@ Content-Type: application/json
 
 ###
 # Добавление в друзья
-POST http://localhost:5000/api/users/friend/65570f2b8d8176ff18e76c25 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTVhMDc0OGYyMzg5MTAyMjkxZTU4NzYiLCJlbWFpbCI6InVzZXI1QG5vdGZvdW5kLmxvY2FsIiwicm9sZSI6InRyYWluZXIiLCJ1c2VyTmFtZSI6ItCS0LDQvdGPIiwiaWF0IjoxNzAwNjY3MDYwLCJleHAiOjE3MDA2Njc2NjB9.cRT1LECmzYyIPJ-pQhyGGlNWBlzmvf_kMh6PyyWBbuE
+POST http://localhost:5000/api/users/friend/656392bbb0e4097c7d921ddc HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTc0ODg4NjJiNzE2NmJkMTgzZGM2MDQiLCJlbWFpbCI6InVzZXIxMEBtYWlsLmNvbSIsInJvbGUiOiJ0cmFpbmVyIiwidXNlck5hbWUiOiJjY2NjIiwiaWF0IjoxNzAyNjQ3MjY5LCJleHAiOjE3MDI2NDk2Njl9.ZqVDUo7wdlocCAaxHFUBnLyJMQTHz0T0LG6S4DFP8qM
 
 ###
 # Список пользователей

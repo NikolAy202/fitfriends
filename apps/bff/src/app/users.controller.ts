@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Req, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ApplicationServiceURL } from './app.config';
 import { Request } from 'express';
@@ -13,6 +13,7 @@ import { UsersQueryDto } from '@project/shared/shared-query';
 import { RequestWithTokenPayload, TrainingRequest } from '@project/shared/app-types';
 import { UseridNotifyInterceptor } from './interceptors/user-id-notify.interseptor';
 import { UserIdRequestInterceptor } from './interceptors/user-id.request.interceptor';
+import { RoleUserInterceptor } from './interceptors/role-user.intersceptor';
 
 @Controller('users')
 @UseFilters(AxiosExceptionFilter)
@@ -23,6 +24,7 @@ export class UsersController {
 
   @Post('register')
   public async create(@Body() createUserDto: CreateUserDto) {
+
     const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Auth}/register`, createUserDto);
     return data;
   }
@@ -44,8 +46,39 @@ export class UsersController {
     return data;
   }
 
+  @Post('check/email')
+public async checkEmail(@Body() email: string) {
+  const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Auth}/check/email`, email);
+  return data;
+}
+
   @UseGuards(CheckAuthGuard)
   @UseInterceptors(UserIdInterceptor)
+  @Get('login/auth')
+  public async loginUser(@Body() body, @Req() req: Request) {
+
+    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Auth}/${body.userId}`,  {
+      headers: {
+        'Authorization': req.headers['authorization']
+      }
+    });
+
+    if (data.avatar) {
+      const {data: {path}}  = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Files}/${data.avatar}`);
+      data.avatarPath = path
+      }
+
+    if (data.certificates) {
+      data.certificatesPath=[];
+      await Promise.all(data.certificates.map(async (el) => {
+         const {data: {path}}  = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Files}/${el}`);
+         data.certificatesPath.push({certificateId: el, certificatePath: path});
+         }));
+      }
+      return data;
+  }
+
+  @UseGuards(CheckAuthGuard)
   @Get('/:id')
   public async show(@Req() req: Request, @Param('id', MongoidValidationPipe) id: string) {
     const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Auth}/${id}`,  {
@@ -53,8 +86,27 @@ export class UsersController {
         'Authorization': req.headers['authorization']
       }
     });
+    if (data.avatar) {
+      const {data: {path}}  = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Files}/${data.avatar}`);
+      data.avatarPath = path
+      }
+
+
+      if (data.image) {
+        const {data: {path}}  = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Files}/${data.image}`);
+        data.image = path
+        }
+
+    if (data.certificates) {
+      data.certificatesPath=[];
+      await Promise.all(data.certificates.map(async (el) => {
+         const {data: {path}}  = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Files}/${el}`);
+         data.certificatesPath.push({certificateId: el, certificatePath: path});
+         }));
+      }
     return data;
-  }
+}
+
 
   @UseGuards(CheckAuthGuard)
   @Post('update')
@@ -77,6 +129,12 @@ export class UsersController {
         'Authorization': req.headers['authorization']
       }
     });
+    await Promise.all(data.map(async (el) => {
+      if (el.avatar) {
+        const {data: {path}}  = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Files}/${el.avatar}`);
+        el.avatar = path;
+      }
+      }));
     return data;
   }
 
@@ -97,6 +155,19 @@ export class UsersController {
     return data;
   }
 
+  @UseGuards(CheckAuthGuard)
+  @UseInterceptors(RoleUserInterceptor)
+  @Get('/get/count')
+  public async countUsers(@Req() req: Request, @Body() body) {
+    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Users}`,  {
+      headers: {
+        'Authorization': req.headers['authorization']
+      }
+    });
+
+    const users = data.filter((el)=>el.id!==body.userId)
+    return users.length;
+  }
 
   //Ответ по заявке на персональную/совместную тренировку
   @UseGuards(CheckAuthGuard)
@@ -109,9 +180,38 @@ export class UsersController {
   }
 
   @UseGuards(CheckAuthGuard)
+  @UseInterceptors(RoleUserInterceptor)
+  @UseInterceptors(UserIdInterceptor)
+  @Get('orders')
+  public async showOrders(@Req() { user: payload }: RequestWithTokenPayload) {
+    const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Orders}/list/${payload.sub}`);
+   return data;
+  }
+
+  @UseGuards(CheckAuthGuard)
   @Get('comments/:trainingId')
   public async showComments(@Req() req: Request, @Param('trainingId', MongoidValidationPipe) trainingId: string) {
     const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Comment}/${trainingId}`, {
+      headers: {
+      'Authorization': req.headers['authorization'],
+      }
+  })
+  
+  await Promise.all(data.map(async (el) => {
+    if (el.avatar) {
+      const {data: {path}}  = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Files}/${el.avatar}`);
+      el.avatar = path;
+    }
+    }));
+
+  return data;
+  }
+
+  @UseGuards(CheckAuthGuard)
+  @Post('friend/:userId')
+  public async addFriend(@Req() req: Request, @Param('userId', MongoidValidationPipe) userId: string) {
+
+    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Users}/friend/${userId}`, null, {
       headers: {
       'Authorization': req.headers['authorization'],
       }

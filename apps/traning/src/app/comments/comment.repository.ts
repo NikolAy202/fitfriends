@@ -28,7 +28,7 @@ export class CommentRepository {
           .limit(page * limit)
           .exec();
     }
-    console.log('findByTrainingId')
+
     return this.commentModel.find({traningId: traningId}).exec();
     }
 

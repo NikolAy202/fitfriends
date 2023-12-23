@@ -64,6 +64,14 @@ export class AuthenticationService {
     return newUser;
   }
 
+  public async checkEmail(email: string) {
+    const existUser = await this.userRepository.findByEmail(email);
+    if (existUser) {
+      throw new ConflictException(AUTH_USER_EXISTS);
+        }
+    return {email: null}
+  }
+
   public async verifyUser(dto: LoginUserDto) {
     const {email, password} = dto;
     const existUser = await this.userRepository.findByEmail(email);
@@ -82,8 +90,16 @@ export class AuthenticationService {
   }
 
   public async getUser(id: string) {
-    return await this.userRepository.findById(id);
+    const user = await this.userRepository.findById(id);
+    console.log(user)
+    if (user.role === UserRole.Trainer) {
+      const trainer = await this.userRepository.infoTrainer(user._id)
+      return trainer
+    }
 
+    const client = await this.userRepository.infoClient(user._id)
+    console.log(client)
+    return client
   }
 
   public async createUserToken(user: BaseUser) {

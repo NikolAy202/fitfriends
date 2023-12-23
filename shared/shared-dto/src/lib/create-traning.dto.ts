@@ -12,14 +12,6 @@ export class CreateTraningDto {
   public title: string;
 
   @ApiProperty({
-    description: 'Background picture of the workout',
-    example: 'upload/image/12'
-  })
-  @IsString()
-  public image: string;
-
-
-  @ApiProperty({
     description: 'Required level of training',
     example: 'beginner'
   })
@@ -71,13 +63,6 @@ export class CreateTraningDto {
   })
   @IsString({message: ''})
   public gender: UserGender;
-
-  @ApiProperty({
-    description: 'Video of traning',
-    example: '/upload/video/12'
-  })
-  @IsString()
-  public video: string;
 
   @ApiProperty({
     description: 'Evaluation of training',

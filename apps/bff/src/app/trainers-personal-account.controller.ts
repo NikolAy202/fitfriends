@@ -46,7 +46,29 @@ export class TrainerController {
   @Get('training/:id')
   public async show(@Req() req: Request, @Param('id', MongoidValidationPipe) id: string) {
     const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Traning}/${id}`);
+
+    const trainer = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Auth}/${data.trainer}`, {
+      headers: {
+        'Authorization': req.headers['authorization']
+      }
+    });
+    data.trainerName = trainer.data.userName;
+    if (trainer.data.avatar) {
+    const {data: {path}}  = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Files}/${trainer.data.avatar}`);
+    data.trainerAvataPath = path
+    }
+
+      if (data.image) {
+        const {data: {path}}  = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Files}/${data.image}`);
+        data.photoTraningPath = path
+      }
+      if (data.video) {
+        const {data: {path}}  = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Files}/${data.video}`);
+        data.videoTraningPath = path
+      }
+
     return data;
+
   }
 
   //Список тренеровок тренера
@@ -55,7 +77,14 @@ export class TrainerController {
   @Get('training/show/list')
   public async showList(@Req() { user: payload }: RequestWithTokenPayload, @Query() query: TraningQueryDto) {
     const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Traning}/trainer/list/${payload.sub}`, {params : query});
-   return data;
+    await Promise.all(data.map(async (el) => {
+      if (el.image) {
+        const {data: {path}}  = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Files}/${el.image}`);
+        el.image = path
+      }
+
+    }))
+    return data;
   }
 
   //Список друзей тренера
@@ -67,6 +96,12 @@ export class TrainerController {
       'Authorization': req.headers['authorization'],
       }
   })
+  await Promise.all(data.map(async (el) => {
+    if (el.avatar) {
+      const {data: {path}}  = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Files}/${el.avatar}`);
+      el.avatar = path;
+    }
+    }));
   return data;
 }
 
@@ -77,6 +112,19 @@ export class TrainerController {
   public async showOrders(@Req() { user: payload }: RequestWithTokenPayload,) {
     const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Orders}/show/list/${payload.sub}`, {
   })
+
+
+  await Promise.all(data.map(async (el) => {
+
+    const {data} = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Traning}/${el.trainingId}`);
+
+    if (data.image) {
+      const {data: {path}}  = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Files}/${data.image}`);
+      data.image = path;
+    }
+    el.training = data;
+  }))
+
   return data;
   }
 
